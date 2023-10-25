@@ -1,19 +1,17 @@
 #include <iostream>
-
+#include <vector>
 using namespace std;
 
-void fillMatricesData();
-void zeroSpread(int arr[][5])
+void printMatrix(int arr[][6]);
+void fillMatricesData(int _matrices);
+int getMinimum(vector<int> vect);
+int getMaximum(vector<int> vect);
+void zeroSpread(int arr[][6])
 {
-    for(int x = 0; x < 5; x++)
+    for(int x = 1; x < 6; x++)
     {
         arr[x][x] = 0;
     }
-}
-void oneSpread(int _k, int _i, int _j, int arr[][5], int pArr[6])  // int arr** to pass 2d pointer
-{
-    
-    
 }
 
 int main(){
@@ -23,14 +21,19 @@ int main(){
                   min or max or avg: { M[i,j] = M[ i, k ] + M[ k+1, j ] + p_i-1 * p_k * p_j }
                  }
     */
-
-    int MATRICES = 5;
-    int scalarMatrix[5][5] = {
-                                {-1,-1,-1,-1,-1},
-                                {-1,-1,-1,-1,-1},
-                                {-1,-1,-1,-1,-1},
-                                {-1,-1,-1,-1,-1},
-                                {-1,-1,-1,-1,-1}
+    int MATRICES;
+    cout << "Enter the number of Matrices : " << endl;
+    cin >> MATRICES;
+    MATRICES++;
+    
+    // add extra row and column, ignore row 0 and column 0, 
+    int scalarMatrix[6][6] = {
+                                {-1, -1, -1, -1, -1, -1},
+                                {-1, -1, -1, -1, -1, -1},
+                                {-1, -1, -1, -1, -1, -1},
+                                {-1, -1, -1, -1, -1, -1},
+                                {-1, -1, -1, -1, -1, -1},
+                                {-1, -1, -1, -1, -1, -1}
                              };
 
     int M1[] = {9,3};
@@ -51,28 +54,62 @@ int main(){
     // 0 :  i = j therefor we can just assign them all zereos
     zeroSpread(scalarMatrix);
 
-    int spread = 1; //spread
-
-    for(int chainLength = 1; chainLength < MATRICES; chainLength++)    // start from second link of the Matrix chain, Notice that it starts from 1 NOT 2
+    for(int chainLength = 2; chainLength < MATRICES; chainLength++)    // start from second link of the Matrix chain
     {
-        for(int i = 1; i < MATRICES - chainLength ; i++)  // traverse through i while i is less than N - current chainLength
+        for(int i = 1; i < 6 - chainLength + 1; i++)  // traverse through i while i is less than N - current chainLength + 1
         {
-            int j = i + chainLength;    // M[i][i + chainLength - 1]
-            
+            int j = i + chainLength - 1;    // M[i][i + chainLength - 1]
+            vector<int> scalarWeights;      // holds values in order to find min, max, or avg
             for(int k = i; k < j; k++)
             {
                 int temp = scalarMatrix[i][k] + scalarMatrix[k+1][j] + (p[i-1] * p[k] * p[j]);
-                cout << temp << endl;
+                scalarWeights.push_back(temp);
                 
             }
-            // return -1;
+            scalarMatrix[i][j] = getMaximum(scalarWeights);
         }
     }
+
+    printMatrix(scalarMatrix);
+
     return 0;
 }
 
-void fillMatricesData(){
+void fillMatricesData(int _matrices){
     cout << "Enter number of Matrices: " << endl;
-    //
+    cin >> _matrices;
     cout << "Enter dimensions for: " << endl;
+}
+void printMatrix(int arr[][6])
+{
+    for(int i = 0; i < 6; i++){
+        for(int j = 0; j < 6; j++){
+            cout << arr[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+int getMinimum(vector<int> vect)
+{
+    int min = vect.at(0);
+    for(int i = 0; i < vect.size(); i++)
+    {
+        if(vect.at(i) < min)
+        {
+            min = vect.at(i);
+        }
+    }
+    return min;
+}
+int getMaximum(vector<int> vect)
+{
+    int max = vect.at(0);
+    for(int i = 0; i < vect.size(); i++)
+    {
+        if(vect.at(i) > max)
+        {
+            max = vect.at(i);
+        }
+    }
+    return max;
 }
