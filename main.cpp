@@ -48,17 +48,18 @@ int main(){
 
     int p[] = {9, 3, 9, 1, 8, 4};
 
+    // 0 :  i = j therefor we can just assign them all zereos
     zeroSpread(scalarMatrix);
 
     int spread = 1; //spread
 
-    for(int sp = 1; sp < MATRICES; sp++)
+    for(int chainLength = 1; chainLength < MATRICES; chainLength++)    // start from second link of the Matrix chain, Notice that it starts from 1 NOT 2
     {
-        for(int i = 1; i < MATRICES - sp + 1; i++)
+        for(int i = 1; i < MATRICES - chainLength + 1; i++)  // traverse through i while i is less than N - current chainLength + 1
         {
-            int j = i + sp - 1;
-            int k = i;
-            for(j; j < MATRICES; j = j + sp)
+            int j = i + chainLength - 1;    // M[i][i + chainLength - 1]
+            
+            for(int k = i; k < j; k++)
             {
                 int temp = scalarMatrix[i][k] + scalarMatrix[k+1][j] + (p[i-1] * p[k] * p[j]);
                 cout << temp << endl;
