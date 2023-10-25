@@ -55,9 +55,9 @@ int main(){
 
     for(int chainLength = 1; chainLength < MATRICES; chainLength++)    // start from second link of the Matrix chain, Notice that it starts from 1 NOT 2
     {
-        for(int i = 1; i < MATRICES - chainLength + 1; i++)  // traverse through i while i is less than N - current chainLength + 1
+        for(int i = 1; i < MATRICES - chainLength ; i++)  // traverse through i while i is less than N - current chainLength
         {
-            int j = i + chainLength - 1;    // M[i][i + chainLength - 1]
+            int j = i + chainLength;    // M[i][i + chainLength - 1]
             
             for(int k = i; k < j; k++)
             {
@@ -65,7 +65,7 @@ int main(){
                 cout << temp << endl;
                 
             }
-            return -1;
+            // return -1;
         }
     }
     return 0;
